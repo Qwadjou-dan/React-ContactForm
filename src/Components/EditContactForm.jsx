@@ -34,10 +34,6 @@ export function EditContactForm({ contact, handleEditContact }) {
     let newContact = { name, phone, location, id: contact.id };
 
     handleEditContact(contact.id, newContact);
-
-    setName("");
-    setPhone("");
-    setLocation("");
   };
 
   const handleOpen = () => setOpen(!open);
