@@ -13,6 +13,18 @@ const App = () => {
     setContacts(contacts.filter((contact) => contact.id !== id));
   }
 
+  function handleEditContact(id, updatedContact) {
+    setContacts(
+      contacts.map((contact) => {
+        if (contact.id === id) {
+          return updatedContact;
+        } else {
+          return contact;
+        }
+      })
+    );
+  }
+
   return (
     <div>
       <div className="flex flex-row  items-start h-full">
@@ -23,6 +35,7 @@ const App = () => {
           <Contacts
             handleDeleteContact={handleDeleteContact}
             contacts={contacts}
+            handleEditContact={handleEditContact}
           />
         </div>
       </div>

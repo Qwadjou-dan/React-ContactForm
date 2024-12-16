@@ -1,11 +1,20 @@
 import React, { useState } from "react";
-import { Card, Input, Button, Typography } from "@material-tailwind/react";
-import { v4 as uuid } from "uuid";
+import {
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  Typography,
+  Input,
+} from "@material-tailwind/react";
 
-const ContactsForm = ({ handleAddContact }) => {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [location, setLocation] = useState("");
+export function EditContactForm({ contact, handleEditContact }) {
+  const [open, setOpen] = React.useState(false);
+
+  const [name, setName] = useState(contact.name);
+  const [phone, setPhone] = useState(contact.phone);
+  const [location, setLocation] = useState(contact.location);
 
   const handleName = (e) => {
     setName(e.target.value);
@@ -21,22 +30,26 @@ const ContactsForm = ({ handleAddContact }) => {
 
   const handleAddUp = (e) => {
     e.preventDefault();
-    handleAddContact({ name, phone, location, id: uuid() });
+
+    let newContact = { name, phone, location, id: contact.id };
+
+    handleEditContact(contact.id, newContact);
 
     setName("");
     setPhone("");
     setLocation("");
   };
+
+  const handleOpen = () => setOpen(!open);
+
   return (
-    <div>
-      <div>
-        <Card color="transparent" shadow={false}>
-          <Typography variant="h4" color="blue-gray">
-            Sign Up
-          </Typography>
-          <Typography color="gray" className="mt-1 font-normal">
-            Nice to meet you! Enter your details...
-          </Typography>
+    <>
+      <Button onClick={handleOpen} variant="gradient">
+        Edit
+      </Button>
+      <Dialog open={open} handler={handleOpen}>
+        <DialogHeader>Edit contact Info.</DialogHeader>
+        <DialogBody>
           <form
             className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
             onSubmit={handleAddUp}
@@ -84,14 +97,27 @@ const ContactsForm = ({ handleAddContact }) => {
                 onChange={handleLocation}
               />
             </div>
-            <Button className="mt-6" fullWidth onClick={handleAddUp}>
-              Add Contact
+            <Button
+              className="mt-6"
+              fullWidth
+              type="submit"
+              onClick={handleOpen}
+            >
+              Edit Contact
             </Button>
           </form>
-        </Card>
-      </div>
-    </div>
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={handleOpen}
+            className="mr-1"
+          >
+            <span>Cancel</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
+    </>
   );
-};
-
-export default ContactsForm;
+}
