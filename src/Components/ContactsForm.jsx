@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
+import { v4 as uuid } from "uuid";
 
 const ContactsForm = ({ handleAddContact }) => {
   const [name, setName] = useState("");
@@ -20,7 +21,9 @@ const ContactsForm = ({ handleAddContact }) => {
 
   const handleAddUp = (e) => {
     e.preventDefault();
-    handleAddContact({ name, phone, location });
+    handleAddContact({ name, phone, location, id: uuid() });
+    let NewContact = [{ name, phone, location, id: uuid() }];
+    console.log(NewContact);
 
     setName("");
     setPhone("");
